@@ -9,8 +9,8 @@ Until now! This project scrapes the hellointernet website to collect download li
 Since the scraper uses a webview to aggregate the RSS feed, the actual scraping is done as part of the build step and the produced artifact is just a static docker image.
 
 ```
-$ make # builds holewinski.dev/freebooter
-$ docker run --rm -p 8080:8080 holewinski.dev/freebooter:latest
+$ make # builds ghcr.io/erwijet/hi-freebooted
+$ docker run --rm -p 8080:8080 ghcr.io/erwijet/hi-freebooted:latest
 ```
 
 ---
