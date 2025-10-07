@@ -17,7 +17,12 @@ const TOTAL_EPISODES = 136
 
 func main() {
 	var outfile string
+	var title string
+	var link string
+
 	flag.StringVar(&outfile, "o", "", "The file to write the RSS feed to")
+	flag.StringVar(&title, "t", "", "Title to give podcast feed")
+	flag.StringVar(&link, "l", "", "Where the feed will be hosted")
 	flag.Parse()
 
 	if outfile == "" {
@@ -26,11 +31,12 @@ func main() {
 	}
 
 	o, err := os.Create(outfile)
-	defer o.Close()
 
 	if err != nil {
 		log.Panic(err)
 	}
+
+	defer o.Close()
 
 	var pod = new(lib.HiPodcast)
 	bar := progressbar.Default(TOTAL_EPISODES + 12) // for the 12 days of christmas stuff
@@ -57,10 +63,10 @@ func main() {
 	orig, _ := fp.ParseURL("https://www.hellointernet.fm/podcast?format=rss")
 
 	p := &podcasts.Podcast{
-		Title:       "Hello Internet (freebooted)",
+		Title:       title,
 		Description: orig.Description,
 		Language:    "EN",
-		Link:        "https://hi.holewinski.dev/.rss",
+		Link:        link,
 		Copyright:   orig.Copyright,
 	}
 
@@ -100,11 +106,4 @@ func main() {
 	}
 
 	feed.Write(o)
-
-	// http.HandleFunc("/.rss", func(w http.ResponseWriter, r *http.Request) {
-	// 	feed.Write(w)
-	// })
-
-	// fmt.Println("Servering RSS feed on 0.0.0.0:8080/.rss")
-	// http.ListenAndServe(":8080", nil)
 }
